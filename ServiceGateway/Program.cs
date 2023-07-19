@@ -124,14 +124,16 @@ try
 
     app.UseOcelot().Wait();
 
-    app.MapControllers();
 
-    app.MapGet("/", async context => 
+    app.MapGet("/", async context =>
         await context.Response.WriteAsync(_service_name));
-    
+
     app.MapGet("/info", async context =>
         await context.Response.WriteAsync($"{_service_name}, running on {context.Request.Host}"));
-    
+
+
+    app.MapControllers();
+
 
 
     app.Run();

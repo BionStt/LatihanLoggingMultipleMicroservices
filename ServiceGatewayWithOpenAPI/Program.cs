@@ -63,8 +63,8 @@ try
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .AddJsonFile($"appsettings.{environment}.json", true, true)
         .AddJsonFile($"appsettings.{Environment.MachineName}.json", true, true)
-        //.AddJsonFile("ocelot.json", optional: false, reloadOnChange: false)
-        //.AddJsonFile($"ocelot.{environment}.json", optional: true)
+        .AddJsonFile("ocelot.json", optional: false, reloadOnChange: false)
+        .AddJsonFile($"ocelot.{environment}.json", optional: true)
         .AddOcelotWithSwaggerSupport(options =>
         {
             options.Folder = routes;
@@ -137,13 +137,13 @@ try
     }).UseOcelot().Wait();
 
 
-    app.MapControllers();
-
     app.MapGet("/", async context =>
         await context.Response.WriteAsync(_service_name));
 
     app.MapGet("/info", async context =>
         await context.Response.WriteAsync($"{_service_name}, running on {context.Request.Host}"));
+
+    app.MapControllers();
 
 
     app.Run();

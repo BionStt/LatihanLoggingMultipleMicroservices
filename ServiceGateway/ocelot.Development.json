@@ -10,8 +10,14 @@
           "Port": 5256
         }
       ],
-      "UpstreamPathTemplate": "/servicea/{everything}",
-      "UpstreamHttpMethod": [ "GET", "OPTIONS" ]
+      "UpstreamPathTemplate": "/serviceone/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
     },
     {
       "DownstreamPathTemplate": "/{everything}",
@@ -23,8 +29,14 @@
           "Port": 5258
         }
       ],
-      "UpstreamPathTemplate": "/serviceb/{everything}",
-      "UpstreamHttpMethod": [ "GET", "OPTIONS" ]
+      "UpstreamPathTemplate": "/servicetwo/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
     },
     {
       "DownstreamPathTemplate": "/{everything}",
@@ -36,8 +48,14 @@
           "Port": 5172
         }
       ],
-      "UpstreamPathTemplate": "/servicec/{everything}",
-      "UpstreamHttpMethod": [ "GET", "OPTIONS" ]
+      "UpstreamPathTemplate": "/servicethree/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
     }
   ],
   "GlobalConfiguration": {}

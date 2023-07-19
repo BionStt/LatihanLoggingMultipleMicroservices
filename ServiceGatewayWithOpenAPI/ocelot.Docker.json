@@ -9,7 +9,7 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/servicea/{everything}",
+      "UpstreamPathTemplate": "/serviceone/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -27,7 +27,7 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/serviceb/{everything}",
+      "UpstreamPathTemplate": "/servicetwo/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -45,7 +45,7 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/servicec/{everything}",
+      "UpstreamPathTemplate": "/servicethree/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",

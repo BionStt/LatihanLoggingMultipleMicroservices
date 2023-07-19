@@ -5,36 +5,54 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "servicea.openapi",
+          "Host": "serviceone",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/servicea/{everything}",
-      "UpstreamHttpMethod": [ "GET", "OPTIONS" ]
+      "UpstreamPathTemplate": "/serviceone/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
     },
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "serviceb.openapi",
+          "Host": "servicetwo",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/serviceb/{everything}",
-      "UpstreamHttpMethod": [ "GET", "OPTIONS" ]
+      "UpstreamPathTemplate": "/servicetwo/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
     },
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "servicec.openapi",
+          "Host": "servicethree",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/servicec/{everything}",
-      "UpstreamHttpMethod": [ "GET", "OPTIONS" ]
+      "UpstreamPathTemplate": "/servicethree/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
     }
   ],
   "GlobalConfiguration": {}
