@@ -1,25 +1,98 @@
-var builder = WebApplication.CreateBuilder(args);
+using Serilog;
+using ServiceCore.Middleware;
+using System.Reflection;
+using ServiceThree.StartupExtension;
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console().CreateBootstrapLogger();
+Log.Information("Starting up logging");
 
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    string _service_name;
+    _service_name = Assembly.GetExecutingAssembly().GetName().Name;
+
+    var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+    {
+        Args = args,
+        ApplicationName = typeof(Program).Assembly.FullName,
+        ContentRootPath = Directory.GetCurrentDirectory(),
+        //EnvironmentName = Environments.Staging,
+        //WebRootPath = "customwwwroot"
+    });
+
+    Console.WriteLine($"Application Name: {builder.Environment.ApplicationName}");
+    Console.WriteLine($"Environment Name: {builder.Environment.EnvironmentName}");
+    Console.WriteLine($"ContentRoot Path: {builder.Environment.ContentRootPath}");
+    Console.WriteLine($"WebRootPath: {builder.Environment.WebRootPath}");
+
+    // Add services to the container.
+
+    #region belajar configuration
+   
+    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+    var config = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        //.AddJsonFile("appsettings.json")
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{environment}.json", true, true)
+        .AddJsonFile($"appsettings.{Environment.MachineName}.json", true, true)
+        //.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true)
+        .AddEnvironmentVariables()
+        .Build();
+
+    #endregion
+
+    builder.Logging.ClearProviders().AddConsole().AddSerilog(CustomLoggerConfiguration.Configure());
+
+
+    builder.Services.AddCors();
+    builder.Services.AddHttpContextAccessor();
+    builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+    builder.Services.AddControllers();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseMiddleware<ExceptionMiddleware>();
+
+
+    app.UseHttpsRedirection();
+
+    app.UseStaticFiles();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.MapGet("/", async context => await context.Response.WriteAsync(_service_name));
+
+    app.Run();
+
+}
+catch (Exception ex)
+{
+    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name}", ex);
+
+    //Log.Fatal(ex, "Unhandled Exception");
 }
 
-app.UseHttpsRedirection();
+finally
+{
+    Log.Information("Log Complete");
+    Log.CloseAndFlush();
+}
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
