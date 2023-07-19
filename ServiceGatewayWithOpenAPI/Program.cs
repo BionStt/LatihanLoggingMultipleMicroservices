@@ -1,23 +1,15 @@
 
-using Serilog;
 using System.Reflection;
+using Microsoft.AspNetCore.Diagnostics;
+using MMLib.SwaggerForOcelot.DependencyInjection;
+using Newtonsoft.Json;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
-using Ocelot.Provider.Polly;
-using ServiceGateway.StartupExtension;
-using ServiceCore.Middleware;
 using Ocelot.Middleware;
-using Microsoft.AspNetCore.Diagnostics;
-using Newtonsoft.Json;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Ocelot.Provider.Polly;
+using Serilog;
+using ServiceGatewayWithOpenAPI.Config;
+using ServiceGatewayWithOpenAPI.StartupExtension;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console().CreateBootstrapLogger();
@@ -28,7 +20,6 @@ try
 {
     string _service_name;
     _service_name = Assembly.GetExecutingAssembly().GetName().Name;
-
 
 
 
@@ -46,35 +37,45 @@ try
     Console.WriteLine($"ContentRoot Path: {builder.Environment.ContentRootPath}");
     Console.WriteLine($"WebRootPath: {builder.Environment.WebRootPath}");
 
-
-    // Add services to the container.
-
     #region belajar configuration
-    
+    var routes = "Routes";
     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-    var config = new ConfigurationBuilder()
+    //var config = new ConfigurationBuilder()
+    //    .SetBasePath(Directory.GetCurrentDirectory())
+    //    //.AddJsonFile("appsettings.json")
+    //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    //    .AddJsonFile($"appsettings.{environment}.json", true, true)
+    //    .AddJsonFile($"appsettings.{Environment.MachineName}.json", true, true)
+    //    //.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true)
+    //    .AddJsonFile("ocelot.json", optional: false, reloadOnChange: false)
+    //    .AddJsonFile($"ocelot.{environment}.json", optional: true)
+    //    .AddOcelotWithSwaggerSupport(options =>
+    //    {
+    //        options.Folder = routes;
+    //    })
+    //    //.AddOcelot(routes, builder.Environment)
+    //    .AddEnvironmentVariables()
+    //    .Build();
+
+    builder.Configuration
         .SetBasePath(Directory.GetCurrentDirectory())
-        //.AddJsonFile("appsettings.json")
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .AddJsonFile($"appsettings.{environment}.json", true, true)
         .AddJsonFile($"appsettings.{Environment.MachineName}.json", true, true)
-      //.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true)
-       .AddJsonFile("ocelot.json", optional: false, reloadOnChange: false)
-        .AddJsonFile($"ocelot.{environment}.json", optional: true)
-        .AddEnvironmentVariables()
-        .Build();
-
+        //.AddJsonFile("ocelot.json", optional: false, reloadOnChange: false)
+        //.AddJsonFile($"ocelot.{environment}.json", optional: true)
+        .AddOcelotWithSwaggerSupport(options =>
+        {
+            options.Folder = routes;
+        })
+        .AddOcelot(routes, builder.Environment)
+        .AddEnvironmentVariables();
 
     #endregion
 
-    builder.Logging.ClearProviders().AddConsole().AddSerilog(CustomLoggerConfiguration.Configure());
-
-    builder.Services.AddCors();
-
-    //builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-
-    builder.Services.AddOcelot(config)
+    builder.Services
+        .AddOcelot(builder.Configuration)
         .AddPolly()
         .AddCacheManager(x =>
         {
@@ -83,6 +84,15 @@ try
 
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+    builder.Services.AddSwaggerForOcelot(builder.Configuration);
+
+    builder.Logging.ClearProviders().AddConsole().AddSerilog(CustomLoggerConfiguration.Configure());
+
+    builder.Services.AddCors();
+
+
+    // Add services to the container.
 
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -95,11 +105,8 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        //app.UseSwaggerUI();
     }
-
-    //app.UseMiddleware<ExceptionMiddleware>();
-
     app.UseExceptionHandler(a => a.Run(async context =>
     {
         var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
@@ -122,16 +129,21 @@ try
 
     app.UseAuthorization();
 
-    app.UseOcelot().Wait();
+    app.UseSwaggerForOcelotUI(options =>
+    {
+        options.PathToSwaggerGenerator = "/swagger/docs";
+        options.ReConfigureUpstreamSwaggerJson = AlterUpstream.AlterUpstreamSwaggerJson;
+
+    }).UseOcelot().Wait();
+
 
     app.MapControllers();
 
-    app.MapGet("/", async context => 
+    app.MapGet("/", async context =>
         await context.Response.WriteAsync(_service_name));
-    
+
     app.MapGet("/info", async context =>
         await context.Response.WriteAsync($"{_service_name}, running on {context.Request.Host}"));
-    
 
 
     app.Run();
@@ -149,4 +161,3 @@ finally
     Log.Information("Log Complete");
     Log.CloseAndFlush();
 }
-

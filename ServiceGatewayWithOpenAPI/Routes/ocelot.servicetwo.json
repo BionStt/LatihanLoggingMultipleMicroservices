@@ -1,0 +1,23 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "SwaggerKey": "servicetwo",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7105"
+        }
+      ],
+      "UpstreamPathTemplate": "/servicetwo/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
+    }
+  ]
+}

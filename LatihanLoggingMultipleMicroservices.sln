@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceGateway", "ServiceGa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceCore", "ServiceCore\ServiceCore.csproj", "{0E754D1A-AE6C-4FD4-95F4-895B0DB88FE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceGatewayWithOpenAPI", "ServiceGatewayWithOpenAPI\ServiceGatewayWithOpenAPI.csproj", "{5161B95A-1D7B-4A2D-8851-BED714A25907}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0E754D1A-AE6C-4FD4-95F4-895B0DB88FE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E754D1A-AE6C-4FD4-95F4-895B0DB88FE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E754D1A-AE6C-4FD4-95F4-895B0DB88FE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5161B95A-1D7B-4A2D-8851-BED714A25907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5161B95A-1D7B-4A2D-8851-BED714A25907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5161B95A-1D7B-4A2D-8851-BED714A25907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5161B95A-1D7B-4A2D-8851-BED714A25907}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
