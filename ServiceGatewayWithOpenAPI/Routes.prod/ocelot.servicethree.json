@@ -1,0 +1,25 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "SwaggerKey": "servicethree",
+      "DownstreamHostAndPorts": [
+        {
+          //"Host": "localhost",
+          "Host": "servicethree",
+          //"Port": "5172"
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/servicethree/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ]
+    }
+  ]
+}
