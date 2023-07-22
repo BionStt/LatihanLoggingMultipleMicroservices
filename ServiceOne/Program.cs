@@ -120,6 +120,15 @@ try
 
     app.UseAuthorization();
 
+    // Shows UseCors with CorsPolicyBuilder.
+    app.UseCors(builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+
     app.MapControllers();
 
     //dibwh ini supaya lgs meluncur ke swagger ketika production.
@@ -146,7 +155,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name}", ex);
+    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name} - {ex.Message}", ex);
 
     //Log.Fatal(ex, "Unhandled Exception");
 }

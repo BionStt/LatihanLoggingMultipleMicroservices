@@ -24,7 +24,7 @@
         "Region": null
       },
       "RouteIsCaseSensitive": false,
-      "ServiceName": null,
+      "ServiceName": "SERVICEONE",
       "ServiceNamespace": null,
       "DownstreamScheme": "http",
       "QoSOptions": {
@@ -97,7 +97,7 @@
         "Region": null
       },
       "RouteIsCaseSensitive": false,
-      "ServiceName": null,
+      "ServiceName": "SERVICETWO",
       "ServiceNamespace": null,
       "DownstreamScheme": "http",
       "QoSOptions": {
@@ -170,7 +170,7 @@
         "Region": null
       },
       "RouteIsCaseSensitive": false,
-      "ServiceName": null,
+      "ServiceName": "SERVICETHREE",
       "ServiceNamespace": null,
       "DownstreamScheme": "http",
       "QoSOptions": {

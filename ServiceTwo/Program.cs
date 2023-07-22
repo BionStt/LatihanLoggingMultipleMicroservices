@@ -61,6 +61,15 @@ try
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
+    // Shows UseCors with CorsPolicyBuilder.
+    
+    app.UseCors(builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
 
     app.MapControllers();
 
@@ -128,7 +137,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name}", ex);
+    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name} - {ex.Message}", ex);
 
     //Log.Fatal(ex, "Unhandled Exception");
 }

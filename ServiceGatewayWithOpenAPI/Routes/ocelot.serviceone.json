@@ -7,7 +7,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "7050"
+          "Port": "5256"
         }
       ],
       "UpstreamPathTemplate": "/serviceone/{everything}",

@@ -169,7 +169,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name}", ex);
+    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name} - {ex.Message}", ex);
 
     //Log.Fatal(ex, "Unhandled Exception");
 }

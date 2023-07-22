@@ -29,6 +29,7 @@ namespace ServiceOne.LoggingExtension
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
+                //.Enrich.WithProperty("ApplicationName", environment.)
                 .Enrich.WithExceptionDetails()
                 .Enrich.WithMachineName()
                 .Enrich.WithCorrelationId()
@@ -45,8 +46,10 @@ namespace ServiceOne.LoggingExtension
             return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
             {
                 AutoRegisterTemplate = true,
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
                 //IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
-                IndexFormat = $"logging-microservice-architecture-demo-{DateTime.UtcNow:yyyy-MM}"
+                IndexFormat = $"logging-microservice-architecture-demo-{DateTime.UtcNow:yyyy-MM}",
+                //MinimumLogEventLevel = LogEventLevel.Debug
 
             };
         }

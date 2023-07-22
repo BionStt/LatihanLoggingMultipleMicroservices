@@ -95,12 +95,12 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        //app.UseSwaggerUI();
+        app.UseSwaggerUI();
     }
     else
     {
         app.UseSwagger();
-        //app.UseSwaggerUI();
+        app.UseSwaggerUI();
     }
 
     //app.UseMiddleware<ExceptionMiddleware>();
@@ -157,7 +157,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name}", ex);
+    Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name} - {ex.Message}", ex);
 
     //Log.Fatal(ex, "Unhandled Exception");
 }

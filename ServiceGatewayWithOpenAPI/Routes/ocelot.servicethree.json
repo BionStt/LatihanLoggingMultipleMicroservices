@@ -7,7 +7,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "7049"
+          "Port": "5172"
         }
       ],
       "UpstreamPathTemplate": "/servicethree/{everything}",
