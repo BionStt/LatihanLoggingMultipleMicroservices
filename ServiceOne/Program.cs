@@ -134,6 +134,12 @@ try
     );
 
     app.MapGet("/1", async context => await context.Response.WriteAsync(_service_name));
+    //app.UseSwaggerUI(c =>
+    //{
+    //    string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
+    //    c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "Web API");
+
+    //});
 
     app.Run();
 

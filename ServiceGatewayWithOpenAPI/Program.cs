@@ -107,6 +107,11 @@ try
         app.UseSwagger();
         //app.UseSwaggerUI();
     }
+    else
+    {
+        app.UseSwagger();
+        //app.UseSwaggerUI();
+    }
     app.UseExceptionHandler(a => a.Run(async context =>
     {
         var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
@@ -129,13 +134,22 @@ try
 
     app.UseAuthorization();
 
-    app.UseSwaggerForOcelotUI(options =>
-    {
-        options.PathToSwaggerGenerator = "/swagger/docs";
-        options.ReConfigureUpstreamSwaggerJson = AlterUpstream.AlterUpstreamSwaggerJson;
 
-    }).UseOcelot().Wait();
 
+
+  
+    app.MapControllers();
+
+    //dibwh ini supaya lgs meluncur ke swagger ketika production.
+    app.MapGet("", context =>
+
+        Task.Run(() =>
+        {
+            context.Response.Redirect("./swagger/index.html", permanent: false);
+            return Task.FromResult(0);
+        })
+
+    );
 
     app.MapGet("/", async context =>
         await context.Response.WriteAsync(_service_name));
@@ -143,8 +157,12 @@ try
     app.MapGet("/info", async context =>
         await context.Response.WriteAsync($"{_service_name}, running on {context.Request.Host}"));
 
-    app.MapControllers();
+    app.UseSwaggerForOcelotUI(options =>
+    {
+        options.PathToSwaggerGenerator = "/swagger/docs";
+        options.ReConfigureUpstreamSwaggerJson = AlterUpstream.AlterUpstreamSwaggerJson;
 
+    }).UseOcelot().Wait();
 
     app.Run();
 

@@ -2,17 +2,17 @@ version: '3.6'
 
 services:
     # Elasticsearch Docker Images: https://www.docker.elastic.co/
-    elasticsearch:
-        container_name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    elasticsearchforloggingmicroservice:
+        container_name: elasticsearchforloggingmicroservice
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.8.2
         restart: on-failure
         hostname: elasticsearch
         networks:
             - common_network
 
-    kibana:
-        container_name: kibana
-        image: docker.elastic.co/kibana/kibana:7.9.2
+    kibanaforloggingmicroservice:
+        container_name: kibanaforloggingmicroservice
+        image: docker.elastic.co/kibana/kibana:8.8.2
         restart: on-failure
         hostname: kibana
         networks:
@@ -72,7 +72,6 @@ services:
             dockerfile: ServiceGatewayWithOpenAPI/Dockerfile
         networks:
             - common_network
-
 
 networks:
     common_network:

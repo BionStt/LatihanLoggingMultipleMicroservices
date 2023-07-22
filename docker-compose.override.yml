@@ -1,7 +1,7 @@
 version: '3.6'
 
 services:
-    elasticsearch:
+    elasticsearchforloggingmicroservice:
         environment:
             - discovery.type=single-node
             - xpack.monitoring.enabled=true
@@ -13,14 +13,14 @@ services:
         volumes:
             - elasticsearch-data:/usr/share/elasticsearch/data
 
-    kibana:
+    kibanaforloggingmicroservice:
         environment:
             - ELASTICSEARCH_URL=http://elasticsearch:9200
             - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
         ports:
             - 5601:5601
         depends_on:
-            - elasticsearch
+            - elasticsearchforloggingmicroservice
 
     serviceone:
         environment:
@@ -32,7 +32,7 @@ services:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
         depends_on:
-            - elasticsearch
+            - elasticsearchforloggingmicroservice
 
     servicetwo:
         environment:
@@ -44,7 +44,7 @@ services:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
         depends_on:
-            - elasticsearch
+            - elasticsearchforloggingmicroservice
 
     servicethree:
         environment:
@@ -56,9 +56,9 @@ services:
             - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
             - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
         depends_on:
-            - elasticsearch
+            - elasticsearchforloggingmicroservice
 
-    servicesgateway:
+    servicegateway:
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
             - ASPNETCORE_URLS=http://+:80

@@ -246,7 +246,7 @@
       "DurationOfBreak": 0,
       "TimeoutValue": 0
     },
-    "BaseUrl": "http://localhost:5205",
+    "BaseUrl": "http://localhost:5178",
     "LoadBalancerOptions": {
       "Type": null,
       "Key": null,

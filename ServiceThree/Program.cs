@@ -66,6 +66,11 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+    else
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
     app.UseMiddleware<ExceptionMiddleware>();
 
@@ -78,7 +83,18 @@ try
 
     app.MapControllers();
 
-    app.MapGet("/", async context => await context.Response.WriteAsync(_service_name));
+    //dibwh ini supaya lgs meluncur ke swagger ketika production.
+    app.MapGet("", context =>
+
+        Task.Run(() =>
+        {
+            context.Response.Redirect("./swagger/index.html", permanent: false);
+            return Task.FromResult(0);
+        })
+
+    );
+
+    app.MapGet("/1", async context => await context.Response.WriteAsync(_service_name));
 
     app.Run();
 
