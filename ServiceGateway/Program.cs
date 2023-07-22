@@ -95,12 +95,12 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        //app.UseSwaggerUI();
     }
     else
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        //app.UseSwaggerUI();
     }
 
     //app.UseMiddleware<ExceptionMiddleware>();

@@ -20,3 +20,12 @@ docker exec -it esc1 /usr/share/elasticsearch/bin/elasticsearch-create-enrollmen
 
 docker network create elastic
 docker run --name elasticsearch  --net elastic -p 9200:9200 -p 9300:9300 -e discovery.type=single-node -e ES_JAVA_OPTS="-Xms512m -Xmx512m" -e xpack.security.enabled=false -e xpack.monitoring.enabled=true  -it   docker.elastic.co/elasticsearch/elasticsearch:8.3.3
+
+
+docker-compose up -d --build
+docker ps
+elastick http://localhost:9200
+kibana http://localhost:5601
+
+using powershell
+Invoke-WebRequest -method DELETE http://localhost:9200/_all
