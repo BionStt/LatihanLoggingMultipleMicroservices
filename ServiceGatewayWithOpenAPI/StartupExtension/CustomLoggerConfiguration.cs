@@ -35,7 +35,8 @@ namespace ServiceGatewayWithOpenAPI.StartupExtension
                 //.WriteTo.Elasticsearch(ConfigureElasticSearchSink())
 
                 .ReadFrom.Configuration(configuration)
-                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+                .WriteTo.File("logs/log.txt"/*, restrictedToMinimumLevel = LogEventLevel.Error*/, rollingInterval: RollingInterval.Day)
+                .CreateLogger();
         }
         static ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
         {
